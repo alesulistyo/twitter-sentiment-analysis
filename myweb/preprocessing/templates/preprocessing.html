@@ -1,0 +1,192 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}}</title>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="http://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"
+    />
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="{% static "css/preprocess.css" %}">
+  </head>
+
+  <body>
+    <nav class="navbarx">
+      <ul class="navbar-nav">
+        <li class="logo">
+          <a href="/" class="nav-link">
+            <span class="link-text logo-text">Project PPL</span>
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              data-prefix="fad"
+              data-icon="angle-double-right"
+              role="img"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 448 512"
+              class="svg-inline--fa fa-angle-double-right fa-w-14 fa-5x"
+            >
+              <g class="fa-group">
+                <path
+                  fill="currentColor"
+                  d="M224 273L88.37 409a23.78 23.78 0 0 1-33.8 0L32 386.36a23.94 23.94 0 0 1 0-33.89l96.13-96.37L32 159.73a23.94 23.94 0 0 1 0-33.89l22.44-22.79a23.78 23.78 0 0 1 33.8 0L223.88 239a23.94 23.94 0 0 1 .1 34z"
+                  class="fa-secondary"
+                ></path>
+                <path
+                  fill="currentColor"
+                  d="M415.89 273L280.34 409a23.77 23.77 0 0 1-33.79 0L224 386.26a23.94 23.94 0 0 1 0-33.89L320.11 256l-96-96.47a23.94 23.94 0 0 1 0-33.89l22.52-22.59a23.77 23.77 0 0 1 33.79 0L416 239a24 24 0 0 1-.11 34z"
+                  class="fa-primary"
+                ></path>
+              </g>
+            </svg>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="/tweets" class="nav-link">
+            <i class="fab fa-twitter fa-2x"></i>
+            <span class="link-text">Tweets</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="/preprocessing" class="nav-link">
+            <i class="fas fa-chart-line fa-2x"></i>
+            <span class="link-text">Pra-Pemrosesan</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="/processing" class="nav-link">
+            <i class="fas fa-cogs fa-2x"></i>
+            <span class="link-text">Pemrosesan</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="/validation" class="nav-link">
+            <i class="fas fa-check fa-2x"></i>
+            <span class="link-text">Validasi</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <main>
+      <div class="container">
+        <div class="header">{{heading}}</div>
+        <form action="/processing/submit/" method="POST">
+          {% csrf_token %}
+          <div class="preprocessing">
+            <input
+              type="number"
+              step="1"
+              name="data_latih"
+              min="0"
+              max="100"
+              placeholder="Jumlah data latih (%)"
+              required
+            />
+            <input
+              type="number"
+              step="1"
+              name="data_uji"
+              min="0"
+              max="100"
+              placeholder="Jumlah data uji (%)"
+              required
+            />
+            <div>
+              <input
+                type="number"
+                step="1"
+                name="data_proses"
+                min="1"
+                max="1000"
+                placeholder="Jumlah data yang akan diproses"
+                required
+              />
+              <input class="btn_proses" type="submit" value="PROSES" />
+            </div>
+          </div>
+        </form>
+
+        <div>
+          <table id="tbl_pre" class="content-table">
+            <thead>
+              <tr>
+                <th class="ori">Original</th>
+                <th class="cf">Case Folding</th>
+                <th class="tkz">Tokenization</th>
+                <th class="sw">Stopword</th>
+                <th class="st">Stemming</th>
+                <th class="res">Hasil</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for pd in db_predata %}
+              <tr>
+                <td class="ori">{{pd.original}}</td>
+                <td class="cf">{{pd.casefolding}}</td>
+                <td class="tkz">{{pd.tokenization}}</td>
+                <td class="sw">{{pd.stopword}}</td>
+                <td class="st">{{pd.stemming}}</td>
+                <td class="res">{{pd.result}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+    <script>
+      $(document).ready(function () {
+        $("#tbl_pre").DataTable({
+          ordering: false,
+        });
+      });
+    </script>
+  </body>
+</html>
